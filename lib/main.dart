@@ -1,3 +1,4 @@
+import 'package:ai_pede/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'Ai Pede',
       debugShowCheckedModeBanner: false,
       theme: themeDefault,
-      home: HomeApp(),
+      home: HomeSreen(),
     );
   }
 }
