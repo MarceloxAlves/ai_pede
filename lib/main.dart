@@ -23,7 +23,7 @@ Future<Null> _login() async {
     await auth.signInWithGoogle(
         idToken: credecials.idToken, accessToken: credecials.accessToken);
   }
-  assert(user == null);
+
 }
 
 //AIzaSyBCt4rwnHmE_nQ-FliUURvGuyaDB6ZWESQ
