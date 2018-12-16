@@ -26,6 +26,8 @@ Future<Null> _login() async {
   }
 }
 
+//AIzaSyBCt4rwnHmE_nQ-FliUURvGuyaDB6ZWESQ
+
 _teste() async {
   await _login();
   Firestore.instance
@@ -36,6 +38,7 @@ _teste() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    _teste();
     return MaterialApp(
       title: 'Ai Pede',
       debugShowCheckedModeBanner: false,
