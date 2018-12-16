@@ -16,23 +16,27 @@ class PanificadoraTile extends StatelessWidget {
         shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(4)
         ),
-        child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 25.0,
-            backgroundColor: Colors.white,
-            backgroundImage: NetworkImage(snapshot.data['icone']),
-          ),
-          title: Text(snapshot.data['nome']),
-          trailing: Icon(Icons.keyboard_arrow_right),
+        child: InkWell(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context)=>ProdutoScreen(snapshot))
             );
           },
+          highlightColor: Colors.orangeAccent[100],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 25.0,
+                backgroundColor: Colors.white,
+                backgroundImage: NetworkImage(snapshot.data['icone']),
+              ),
+              title: Text(snapshot.data['nome']),
+              trailing: Icon(Icons.keyboard_arrow_right, color: Colors.black,),
+
+            ),
+          ),
         ),
-      ),
       ),
     );
   }
