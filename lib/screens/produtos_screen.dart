@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_pede/tiles/produtogrid_tile.dart';
+import 'package:ai_pede/tiles/produtolist_tile.dart';
 
 class ProdutoScreen extends StatelessWidget {
 
@@ -30,8 +31,8 @@ class ProdutoScreen extends StatelessWidget {
               color: Colors.orange,
               child: FutureBuilder<QuerySnapshot>(
                 future:
-                    Firestore.instance.collection("produtos")
-                    .where("panificadora", isEqualTo: snapshot.documentID)
+                    snapshot.reference
+                    .collection("produtos")
                     .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -43,7 +44,7 @@ class ProdutoScreen extends StatelessWidget {
                   } else {
                     var dividedTiles = ListTile.divideTiles(
                       tiles: snapshot.data.documents.map((doc) {
-                        return ProdutoTile(doc);
+                        return ProdutoTileGrid(doc);
                       }),
                       color: Colors.transparent)
                       .toList();
@@ -56,7 +57,30 @@ class ProdutoScreen extends StatelessWidget {
             ),
             Container(
               color: Colors.orange,
-              child: Text("List"),
+              child: FutureBuilder<QuerySnapshot>(
+                future:
+                  snapshot.reference
+                    .collection("produtos")
+                    .getDocuments(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.deepOrange,
+                      ),
+                    );
+                  } else {
+                    var dividedTiles = ListTile.divideTiles(
+                        tiles: snapshot.data.documents.map((doc) {
+                          return ProdutoTileList(doc);
+                        }),
+                        color: Colors.transparent)
+                        .toList();
+                    return ListView(
+                      children: dividedTiles,
+                    );
+                  }
+                }),
             ),
           ],
         ),

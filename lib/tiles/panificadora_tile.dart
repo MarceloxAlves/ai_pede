@@ -10,6 +10,7 @@ class PanificadoraTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.only(top: 3, left: 3, right: 3),
       elevation: 1,
       child: Material(
         color: Colors.orange,
@@ -31,8 +32,13 @@ class PanificadoraTile extends StatelessWidget {
                 backgroundColor: Colors.white,
                 backgroundImage: NetworkImage(snapshot.data['icone']),
               ),
-              title: Text(snapshot.data['nome']),
-              trailing: Icon(Icons.keyboard_arrow_right, color: Colors.black,),
+              title: Text(snapshot.data['nome'],
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white,),
 
             ),
           ),

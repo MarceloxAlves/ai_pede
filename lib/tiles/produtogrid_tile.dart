@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ProdutoTile extends StatelessWidget {
+class ProdutoTileGrid extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  ProdutoTile(this.snapshot);
+  ProdutoTileGrid(this.snapshot);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class ProdutoTile extends StatelessWidget {
                       ),
                       child: Image(
                         fit: BoxFit.cover,
-                        image: NetworkImage(snapshot.data["imagem"]),
+                        image: NetworkImage(snapshot.data["image"]),
                       ),
                     ),
                   ],
@@ -40,27 +40,41 @@ class ProdutoTile extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(snapshot.data["nome"], 
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget> [
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(snapshot.data["descricao"],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  )
+                              ),
+                              Text("R\$ " + snapshot.data["preco"].toString(),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  )
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.shopping_cart, color: Colors.black,),
+                              ],
+                            ),
                           )
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text("R\$ " + snapshot.data["preco"].toString(), 
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                          )
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
