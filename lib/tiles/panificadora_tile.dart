@@ -9,15 +9,19 @@ class PanificadoraTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-          child: Padding(
+    return Card(
+      elevation: 1,
+      child: Material(
+        color: Colors.orange,
+        shape: new RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(4)
+        ),
+        child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             backgroundImage: NetworkImage(snapshot.data['icone']),
           ),
           title: Text(snapshot.data['nome']),
@@ -28,7 +32,8 @@ class PanificadoraTile extends StatelessWidget {
             );
           },
         ),
-      )),
+      ),
+      ),
     );
   }
 }
