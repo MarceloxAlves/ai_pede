@@ -13,6 +13,7 @@ class DrawerTile extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        highlightColor: Colors.orangeAccent,
         onTap: (){
             Navigator.of(context).pop();
             pageController.jumpToPage(page);
@@ -32,7 +33,8 @@ class DrawerTile extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                    fontSize: 16.0
+                    fontSize: 16.0,
+                    color: Colors.white
                   ),
                 )
               ],
