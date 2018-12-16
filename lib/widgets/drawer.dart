@@ -1,5 +1,6 @@
 import 'package:ai_pede/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MDrawer extends StatelessWidget {
 
@@ -7,6 +8,7 @@ class MDrawer extends StatelessWidget {
 
 
   MDrawer(this.pageController);
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,36 +31,50 @@ class MDrawer extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 32, bottom: 16),
-                child: ListBody(
-                  children: <Widget>[
-                    Icon(Icons.person, color: Colors.white, size: 55),
-                    Text("Marcelo Alves",
+                child: FutureBuilder<FirebaseUser>(
+                    future: FirebaseAuth.instance.currentUser(),
+                    builder: (context, snapshot) {
+                      if(!snapshot.hasData){
+                        return Center(child: Text("Usuario deslogado",
                             style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
                               color: Colors.white
-                              ),
-                              textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                          )
+                        );
+                      }
+                      return ListBody(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Icon(Icons.mail, color: Colors.white,),
-                          ),
-                          Text("marceloalvessoft@gmail.com",
+                          Icon(Icons.person, color: Colors.white, size: 55),
+                          Text(snapshot.data.displayName,
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 25,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.white),
+                                color: Colors.white
+                            ),
+                            textAlign: TextAlign.center,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Icon(Icons.mail, color: Colors.white,),
+                                ),
+                                Text(snapshot.data.email,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
-                      ),
-                    )
-                  ],
+                      );
+                    },
                 ),
               ),
               Divider(),
