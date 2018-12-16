@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ai_pede/tiles/produto_tile.dart';
 
 class ProdutoScreen extends StatelessWidget {
 
@@ -25,17 +26,38 @@ class ProdutoScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            new RaisedButton(
-              elevation: 1.5,
-              onPressed: (){},
-              textColor: Colors.white,
-              color: Colors.orangeAccent,
-              padding: const EdgeInsets.all(8.0),
-              child: new Text(
-                "Clique aqui para adicionar um pão automatico",
-              ),
+            Container(
+              color: Colors.orange,
+              child: FutureBuilder<QuerySnapshot>(
+                future:
+                    Firestore.instance.collection("produtos")
+                    .where("panificadora", isEqualTo: snapshot.documentID)
+                    .getDocuments(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.deepOrange,
+                      ),
+                    );
+                  } else {
+                    var dividedTiles = ListTile.divideTiles(
+                      tiles: snapshot.data.documents.map((doc) {
+                        return ProdutoTile(doc);
+                      }),
+                      color: Colors.transparent)
+                      .toList();
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      children: dividedTiles,
+                    );
+                  }
+                }),
             ),
-            Text('Cardápio'),
+            Container(
+              color: Colors.orange,
+              child: Text("List"),
+            ),
           ],
         ),
       ),
