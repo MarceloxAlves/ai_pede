@@ -19,10 +19,11 @@ Future<Null> _login() async {
   if (user == null) user = await googleSignIn.signIn();
   if (await auth.currentUser() == null) {
     GoogleSignInAuthentication credecials =
-        await googleSignIn.currentUser.authentication;
+        await user.authentication;
     await auth.signInWithGoogle(
         idToken: credecials.idToken, accessToken: credecials.accessToken);
   }
+  assert(user == null);
 }
 
 //AIzaSyBCt4rwnHmE_nQ-FliUURvGuyaDB6ZWESQ
