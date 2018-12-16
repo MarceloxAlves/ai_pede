@@ -34,6 +34,7 @@ class MDrawer extends StatelessWidget {
                 child: FutureBuilder<FirebaseUser>(
                     future: FirebaseAuth.instance.currentUser(),
                     builder: (context, snapshot) {
+                      print(snapshot.data);
                       if(!snapshot.hasData){
                         return Center(child: Text("Usuario deslogado",
                             style: TextStyle(
@@ -45,7 +46,16 @@ class MDrawer extends StatelessWidget {
                       }
                       return ListBody(
                         children: <Widget>[
-                          Icon(Icons.person, color: Colors.white, size: 55),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                  radius: 50.0,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage:NetworkImage(snapshot.data.photoUrl)
+                              ),
+                            ),
+                          ),
                           Text(snapshot.data.displayName,
                             style: TextStyle(
                                 fontSize: 25,
@@ -83,7 +93,7 @@ class MDrawer extends StatelessWidget {
                   children: <Widget> [
                   DrawerTile(Icons.home, "Início", pageController,0,),
                   DrawerTile(Icons.fastfood, "Panificadoras", pageController,1),
-                  DrawerTile(Icons.local_offer, "Meus Cumpons", pageController,2),
+                  DrawerTile(Icons.local_offer, "Meus Cupons", pageController,2),
                   DrawerTile(Icons.exit_to_app, "Sair", pageController,3),
                 ]
                 ),
