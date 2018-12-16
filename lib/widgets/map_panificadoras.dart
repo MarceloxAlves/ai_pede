@@ -1,7 +1,9 @@
+import 'package:ai_pede/widgets/autocomplete.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 
 class MLocation {
   double latitude;
@@ -56,19 +58,7 @@ class MapsPanificadoras extends StatelessWidget {
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Align(
-          alignment: Alignment.topRight,
-          child: FloatingActionButton(
-            onPressed: () => print('button pressed'),
-            materialTapTargetSize: MaterialTapTargetSize.padded,
-            backgroundColor: Colors.deepOrange,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.search, size: 36.0),
-          ),
-        ),
-      ),
+      FirstPage(),
     ]);
   }
 
