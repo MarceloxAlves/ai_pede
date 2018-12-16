@@ -24,7 +24,6 @@ getLocation() async {
       new MLocation(currentLocation['latitude'], currentLocation['longitude']);
 }
 
-
 class MapsPanificadoras extends StatelessWidget {
   GoogleMapController mapController;
   LatLng _center;
@@ -41,8 +40,8 @@ class MapsPanificadoras extends StatelessWidget {
         _location.longitude.toString());
     _center = LatLng(_location.latitude, _location.longitude);
 
-    return Center(
-      child: SizedBox(
+    return Stack(children: <Widget>[
+      SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: GoogleMap(
@@ -55,20 +54,32 @@ class MapsPanificadoras extends StatelessWidget {
           ),
         ),
       ),
-    );
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Align(
+          alignment: Alignment.topRight,
+          child: FloatingActionButton(
+            onPressed: () => print('button pressed'),
+            materialTapTargetSize: MaterialTapTargetSize.padded,
+            backgroundColor: Colors.deepOrange,
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.search, size: 36.0),
+          ),
+        ),
+      ),
+    ]);
   }
 
-   _onMapCreated(GoogleMapController controller)  {
-     _querySnapshot.forEach((doc) {
-       controller.addMarker(
-          MarkerOptions(
-            position: LatLng(
-              doc.data["location"].latitude,
-              doc.data["location"].longitude,
-            ),
-            icon: BitmapDescriptor.fromAsset("assets/point.png"),
-            infoWindowText:  InfoWindowText(doc.data["nome"], '...'),
-          ));
+  _onMapCreated(GoogleMapController controller) {
+    _querySnapshot.forEach((doc) {
+      controller.addMarker(MarkerOptions(
+        position: LatLng(
+          doc.data["location"].latitude,
+          doc.data["location"].longitude,
+        ),
+        icon: BitmapDescriptor.fromAsset("assets/point.png"),
+        infoWindowText: InfoWindowText(doc.data["nome"], '...'),
+      ));
     });
   }
 }
