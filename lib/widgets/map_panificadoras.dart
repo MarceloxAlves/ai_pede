@@ -33,7 +33,9 @@ class MapsPanificadoras extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getLocation();
+    if(_location == null){
+      getLocation();
+    }
     print("latitude:" +
         _location.latitude.toString() +
         "longitude:" +
