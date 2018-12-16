@@ -31,7 +31,7 @@ class PanificadorasTab extends StatelessWidget {
                         tiles: snapshot.data.documents.map((doc) {
                           return PanificadoraTile(doc);
                         }).toList(),
-                        color: Colors.grey[100])
+                        color: Colors.transparent)
                     .toList();
                 return ListView(
                   children: dividedTiles,

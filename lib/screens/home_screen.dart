@@ -1,7 +1,6 @@
 import 'package:ai_pede/tabs/home_tab.dart';
 import 'package:ai_pede/tabs/panificadoras_tab.dart';
 import 'package:ai_pede/widgets/drawer.dart';
-import 'package:ai_pede/widgets/text_nav.dart';
 import 'package:flutter/material.dart';
 
 class HomeSreen extends StatelessWidget {
