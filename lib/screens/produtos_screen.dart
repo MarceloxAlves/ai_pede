@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_pede/tiles/produto_tile.dart';
+import 'package:ai_pede/tiles/produtogrid_tile.dart';
 
 class ProdutoScreen extends StatelessWidget {
 
