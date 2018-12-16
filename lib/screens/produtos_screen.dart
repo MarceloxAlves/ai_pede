@@ -30,7 +30,9 @@ class ProdutoScreen extends StatelessWidget {
               color: Colors.orange,
               child: FutureBuilder<QuerySnapshot>(
                 future:
-                    Firestore.instance.collection("produtos").getDocuments(),
+                    Firestore.instance.collection("produtos")
+                    .where("panificadora", isEqualTo: snapshot.documentID)
+                    .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
