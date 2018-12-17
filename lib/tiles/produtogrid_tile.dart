@@ -9,6 +9,7 @@ class ProdutoTileGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.all(2),
       elevation: 1,
       child: Material(
         color: Colors.white,

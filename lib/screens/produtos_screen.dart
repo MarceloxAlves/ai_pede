@@ -48,6 +48,7 @@ class ProdutoScreen extends StatelessWidget {
                       color: Colors.transparent)
                       .toList();
                     return GridView.count(
+                      padding: EdgeInsets.all(2),
                       crossAxisCount: 2,
                       children: dividedTiles,
                     );
