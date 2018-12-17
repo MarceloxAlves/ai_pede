@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ProdutoTileList extends StatelessWidget {
+class CartTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
-  List<DocumentSnapshot> carrinho;
 
-  ProdutoTileList(this.snapshot, this.carrinho);
+  CartTile(this.snapshot);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,8 @@ class ProdutoTileList extends StatelessWidget {
       child: Material(
         color: Colors.white,
         shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(4)),
+            borderRadius: new BorderRadius.circular(4)
+        ),
         child: InkWell(
           onTap: () {},
           highlightColor: Colors.orangeAccent[100],
@@ -29,27 +29,19 @@ class ProdutoTileList extends StatelessWidget {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    snapshot.data['descricao'],
+                  Text(snapshot.data['descricao'],
                     style: TextStyle(
                       fontSize: 18,
                     ),
                   ),
-                  Text(
-                    "R\$ " + snapshot.data['preco'].toString(),
+                  Text("R\$ " + snapshot.data['preco'].toString(),
                     style: TextStyle(
                       fontSize: 24,
                     ),
                   ),
                 ],
               ),
-              trailing: InkWell(
-                child: Icon(Icons.shopping_basket, color: Colors.black),
-                onTap: () {
-                    this.carrinho.add(snapshot);
-                    print("total de produto " + this.carrinho.length.toString());
-                },
-              ),
+              trailing: Icon(Icons.add_shopping_cart, color: Colors.black,),
             ),
           ),
         ),

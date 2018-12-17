@@ -34,7 +34,6 @@ class MDrawer extends StatelessWidget {
                 child: FutureBuilder<FirebaseUser>(
                     future: FirebaseAuth.instance.currentUser(),
                     builder: (context, snapshot) {
-                      print(snapshot.data);
                       if(!snapshot.hasData){
                         return Center(child: Text("Usuario deslogado",
                             style: TextStyle(

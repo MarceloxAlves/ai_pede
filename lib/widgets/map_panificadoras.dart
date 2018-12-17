@@ -58,7 +58,7 @@ class MapsPanificadoras extends StatelessWidget {
           ),
         ),
       ),
-      FirstPage(),
+      FirstPage(_querySnapshot, mapController),
     ]);
   }
 

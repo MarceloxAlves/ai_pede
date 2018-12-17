@@ -1,62 +1,41 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FirstPage extends StatefulWidget {
+  List<DocumentSnapshot> _querySnapshot;
+  GoogleMapController controller;
+
+  FirstPage(this._querySnapshot, this.controller);
+
   @override
-  _FirstPageState createState() => new _FirstPageState();
+  _FirstPageState createState() =>
+      new _FirstPageState(this._querySnapshot, controller);
 }
 
 class _FirstPageState extends State<FirstPage> {
   List<String> added = [];
   String currentText = "";
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
+  List<DocumentSnapshot> querySnapshot;
+  GoogleMapController controller;
+  List<String> suggestions = [];
 
-  _FirstPageState() {
+  _FirstPageState(this.querySnapshot, this.controller) {
+    this.querySnapshot.forEach((doc) {
+      suggestions.add(doc.data["nome"].toString());
+    });
+
     textField = SimpleAutoCompleteTextField(
-
       key: key,
       suggestions: suggestions,
       textChanged: (text) => currentText = text,
       textSubmitted: (text) => setState(() {
-        added.add(text);
-      }),
+            added.add(text);
+          }),
     );
   }
-
-  List<String> suggestions = [
-    "Apple",
-    "Armidillo",
-    "Actual",
-    "Actuary",
-    "America",
-    "Argentina",
-    "Australia",
-    "Antarctica",
-    "Blueberry",
-    "Cheese",
-    "Danish",
-    "Eclair",
-    "Fudge",
-    "Granola",
-    "Hazelnut",
-    "Ice Cream",
-    "Jely",
-    "Kiwi Fruit",
-    "Lamb",
-    "Macadamia",
-    "Nachos",
-    "Oatmeal",
-    "Palm Oil",
-    "Quail",
-    "Rabbit",
-    "Salad",
-    "T-Bone Steak",
-    "Urid Dal",
-    "Vanilla",
-    "Waffles",
-    "Yam",
-    "Zest"
-  ];
 
   SimpleAutoCompleteTextField textField;
 
@@ -84,11 +63,10 @@ class _FirstPageState extends State<FirstPage> {
 
     return Container(
       padding: EdgeInsets.all(8.0),
+      alignment: Alignment.topCenter,
       width: 400,
       height: 75,
-      child: new Scaffold(
-          resizeToAvoidBottomPadding: false,
-          body: body),
+      child: new Scaffold(resizeToAvoidBottomPadding: false, body: body),
     );
   }
 }
