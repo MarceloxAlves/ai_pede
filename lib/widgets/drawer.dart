@@ -52,7 +52,9 @@ class MDrawer extends StatelessWidget {
                               child: CircleAvatar(
                                   radius: 50.0,
                                   backgroundColor: Colors.white,
-                                  backgroundImage:NetworkImage(snapshot.data.photoUrl)
+                                  backgroundImage: snapshot.data.photoUrl == null ? 
+                                  NetworkImage("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/768px-Breezeicons-actions-22-im-user.svg.png") :
+                                  NetworkImage(snapshot.data.photoUrl)
                               ),
                             ),
                           ),
