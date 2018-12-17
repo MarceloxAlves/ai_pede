@@ -1,5 +1,6 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart ';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -40,6 +41,8 @@ class _LoginPageState extends State<LoginPage> {
           FirebaseUser user = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: _email, password: _password);
         }
+
+
 
       } catch (e) {
         Scaffold.of(formKey.currentContext).showSnackBar(SnackBar(content: Text('$e')));
