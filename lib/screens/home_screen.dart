@@ -1,3 +1,4 @@
+import 'package:ai_pede/tabs/carrinho_tab.dart';
 import 'package:ai_pede/tabs/home_tab.dart';
 import 'package:ai_pede/tabs/panificadoras_tab.dart';
 import 'package:ai_pede/widgets/drawer.dart';
@@ -25,6 +26,14 @@ class HomeSreen extends StatelessWidget {
           body: PanificadorasTab(),
           appBar: AppBar(
             title: Text('Panificadoras'),
+            elevation: 0.1,
+          ),
+          drawer: MDrawer(_pageController),
+        ),
+        Scaffold(
+          body: CarrinhoTab(),
+          appBar: AppBar(
+            title: Text('Carrinho'),
             elevation: 0.1,
           ),
           drawer: MDrawer(_pageController),

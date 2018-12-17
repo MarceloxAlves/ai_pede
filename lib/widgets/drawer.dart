@@ -95,8 +95,9 @@ class MDrawer extends StatelessWidget {
                   children: <Widget> [
                   DrawerTile(Icons.home, "Início", pageController,0,),
                   DrawerTile(Icons.fastfood, "Panificadoras", pageController,1),
-                  DrawerTile(Icons.local_offer, "Meus Cupons", pageController,2),
-                  DrawerTile(Icons.exit_to_app, "Sair", pageController,3),
+                  DrawerTile(Icons.shopping_cart, "Meu Carrinho", pageController,2),
+                  DrawerTile(Icons.local_offer, "Meus Cupons", pageController,3),
+                  DrawerTile(Icons.exit_to_app, "Sair", pageController,4),
                 ]
                 ),
               )

@@ -8,9 +8,6 @@ void main() {
 final ThemeData themeDefault = ThemeData(
     primarySwatch: Colors.deepOrange, accentColor: Colors.orangeAccent);
 
-
-//AIzaSyBCt4rwnHmE_nQ-FliUURvGuyaDB6ZWESQ
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
