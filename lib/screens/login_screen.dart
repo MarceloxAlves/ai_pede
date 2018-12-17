@@ -42,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
             checkLogin();
 
         }else{
-          await FirebaseAuth.instance
+          user = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: _email, password: _password);
+          checkLogin();
         }
 
 
@@ -54,16 +55,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future loginGoogle() async {
+  void loginGoogle() async {
     final FirebaseAuth _fAuth = FirebaseAuth.instance;
     final GoogleSignIn _gSignIn = new GoogleSignIn();
 
-
     GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
     GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
+
     user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
     checkLogin();
-    
     }
 
   void checkLogin() async{
@@ -94,19 +94,27 @@ class _LoginPageState extends State<LoginPage> {
 
   List<Widget> buildInputs(){
     return [
-      TextFormField(
-        decoration: new InputDecoration(labelText: 'Email'),
-        validator: (value) =>
-        value.isEmpty ? 'Email não pode estar  vazio!' : null,
-        onSaved: (value) => _email = value,
+      ListTile(
+        trailing: Icon(Icons.email),
+        title: TextFormField(
+          decoration: new InputDecoration(labelText: 'Email'),
+          validator: (value) =>
+          value.isEmpty ? 'Email não pode estar  vazio!' : null,
+          onSaved: (value) => _email = value,
+        ),
+
       ),
-      TextFormField(
-        decoration: new InputDecoration(labelText: 'Password'),
-        validator: (value) =>
-        value.isEmpty ? 'Senha não pode estar vazio!' : null,
-        obscureText: true,
-        onSaved: (value) => _password = value,
-      ),
+      ListTile(
+        trailing: Icon(Icons.lock),
+        title: TextFormField(
+          decoration: new InputDecoration(labelText: 'Password'),
+          validator: (value) =>
+          value.isEmpty ? 'Senha não pode estar vazio!' : null,
+          obscureText: true,
+          onSaved: (value) => _password = value,
+        ),
+
+      )
     ];
   }
 
@@ -122,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             onPressed: submit),
         RaisedButton(
+
             onPressed: loginGoogle,
             padding: EdgeInsets.all(8),
             child: Text('Login com Google', style: TextStyle(fontSize: 20))),
