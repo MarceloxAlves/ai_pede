@@ -7,7 +7,6 @@ class ProdutoScreen extends StatelessWidget {
 
   final DocumentSnapshot snapshot;
 
-
   ProdutoScreen(this.snapshot);
 
   @override

@@ -1,17 +1,17 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 
-class FirstPage extends StatefulWidget {
+class AutoComplete extends StatefulWidget {
   @override
-  _FirstPageState createState() => new _FirstPageState();
+  _AutoCompleteState createState() => new _AutoCompleteState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _AutoCompleteState extends State<AutoComplete> {
   List<String> added = [];
   String currentText = "";
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
 
-  _FirstPageState() {
+  _AutoCompleteState() {
     textField = SimpleAutoCompleteTextField(
 
       key: key,
