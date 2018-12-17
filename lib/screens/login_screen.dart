@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart ';
-import 'package:ai_pede/tiles/produtogrid_tile.dart';
-import 'package:ai_pede/tiles/produtolist_tile.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -38,11 +36,10 @@ class _LoginPageState extends State<LoginPage> {
         if (_formType == FormType.login){
             FirebaseUser user = await FirebaseAuth.instance
                 .signInWithEmailAndPassword(email: _email, password: _password);
-            print('entrou');
+
         }else{
           FirebaseUser user = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: _email, password: _password);
-          print('criou');
         }
 
       } catch (e) {
@@ -50,6 +47,16 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+//
+//  Future loginGoogle() async {
+//    final FirebaseAuth _fAuth = FirebaseAuth.instance;
+//    final GoogleSignIn _gSignIn = new GoogleSignIn();
+//
+//
+//    GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
+//    GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
+//    FirebaseUser user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
+//  }
 
   void moveToRegister() {
     formKey.currentState.reset();
@@ -105,12 +112,17 @@ class _LoginPageState extends State<LoginPage> {
     if (_formType == FormType.login){
       return [
         RaisedButton(
+          color: Colors.orangeAccent,
             padding: EdgeInsets.all(16.0),
             child: new Text(
               'Login',
               style: TextStyle(fontSize: 20),
             ),
             onPressed: submit),
+//        RaisedButton(
+//            onPressed: loginGoogle,
+//            padding: EdgeInsets.all(8),
+//            child: Text('Login com Google', style: TextStyle(fontSize: 20))),
         FlatButton(
             onPressed: moveToRegister,
             padding: EdgeInsets.all(8),
