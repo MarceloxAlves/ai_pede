@@ -1,6 +1,6 @@
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart ';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -49,16 +49,19 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
-//
-//  Future loginGoogle() async {
-//    final FirebaseAuth _fAuth = FirebaseAuth.instance;
-//    final GoogleSignIn _gSignIn = new GoogleSignIn();
-//
-//
-//    GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
-//    GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
-//    FirebaseUser user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
-//  }
+
+  Future loginGoogle() async {
+    final FirebaseAuth _fAuth = FirebaseAuth.instance;
+    final GoogleSignIn _gSignIn = new GoogleSignIn();
+
+
+    GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
+    GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
+    FirebaseUser user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
+    print(user.displayName);
+    print(user.email);
+
+  }
 
   void moveToRegister() {
     formKey.currentState.reset();
@@ -121,10 +124,10 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 20),
             ),
             onPressed: submit),
-//        RaisedButton(
-//            onPressed: loginGoogle,
-//            padding: EdgeInsets.all(8),
-//            child: Text('Login com Google', style: TextStyle(fontSize: 20))),
+        RaisedButton(
+            onPressed: loginGoogle,
+            padding: EdgeInsets.all(8),
+            child: Text('Login com Google', style: TextStyle(fontSize: 20))),
         FlatButton(
             onPressed: moveToRegister,
             padding: EdgeInsets.all(8),
