@@ -58,7 +58,7 @@ class MDrawer extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(snapshot.data.displayName,
+                          snapshot.data.displayName == null ? Text(' '): Text(snapshot.data.displayName,
                             style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
