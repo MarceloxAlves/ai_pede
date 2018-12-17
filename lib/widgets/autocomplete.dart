@@ -13,13 +13,23 @@ class _AutoCompleteState extends State<AutoComplete> {
 
   _AutoCompleteState() {
     textField = SimpleAutoCompleteTextField(
-
       key: key,
       suggestions: suggestions,
+      style: TextStyle(color: Colors.white, fontSize: 16),
+      decoration: InputDecoration(
+        hintStyle: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white)
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white)
+        ),
+        hintText: 'Pesquisar...'
+      ),
       textChanged: (text) => currentText = text,
       textSubmitted: (text) => setState(() {
-        added.add(text);
-      }),
+            added.add(text);
+          }),
     );
   }
 
@@ -62,33 +72,29 @@ class _AutoCompleteState extends State<AutoComplete> {
 
   @override
   Widget build(BuildContext context) {
-    Column body = new Column(children: [
-      new ListTile(
-          title: textField,
-          trailing: new IconButton(
-              icon: new Icon(Icons.search),
-              onPressed: () {
-                setState(() {
-                  if (currentText != "") {
-                    added.add(currentText);
-                    textField.clear();
-                    currentText = "";
-                  }
-                });
-              }))
-    ]);
-
-    body.children.addAll(added.map((item) {
-      return new ListTile(title: new Text(item));
-    }));
-
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      width: 400,
-      height: 75,
-      child: new Scaffold(
-          resizeToAvoidBottomPadding: false,
-          body: body),
+    return Column(
+      children: <Widget>[
+        Card(
+          margin: EdgeInsets.all(8),
+          color: Colors.black12,
+          child: Column(children: [
+          new ListTile(
+              title: textField,
+              trailing: new IconButton(
+                  icon: new Icon(Icons.search, color: Colors.white,),
+                  splashColor: Colors.white54,
+                  highlightColor: Colors.white54,
+                  onPressed: () {
+                    setState(() {
+                      if (currentText != "") {
+                        added.add(currentText);
+                        textField.clear();
+                        currentText = "";
+                      }
+                    });
+                  }))
+        ]))
+      ],
     );
   }
 }
