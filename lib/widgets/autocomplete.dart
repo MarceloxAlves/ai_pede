@@ -10,9 +10,7 @@ class AutoComplete extends StatefulWidget {
   AutoComplete(this._querySnapshot, this.controller);
 
   @override
-  _AutoCompleteState createState() => new _AutoCompleteState();
-  _FirstPageState createState() =>
-      new _FirstPageState(this._querySnapshot, controller);
+  _AutoCompleteState createState() => new _AutoCompleteState(this._querySnapshot, controller);
 }
 
 class _AutoCompleteState extends State<AutoComplete> {
@@ -23,8 +21,7 @@ class _AutoCompleteState extends State<AutoComplete> {
   GoogleMapController controller;
   List<String> suggestions = [];
 
-  _AutoCompleteState() {
-  _FirstPageState(this.querySnapshot, this.controller) {
+  _AutoCompleteState(this.querySnapshot, this.controller) {
     this.querySnapshot.forEach((doc) {
       suggestions.add(doc.data["nome"].toString());
     });

@@ -3,16 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_pede/tiles/produtogrid_tile.dart';
 import 'package:ai_pede/tiles/produtolist_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+List<DocumentSnapshot> carrinho = [];
 
 class ProdutoScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
-
   ProdutoScreen(this.snapshot);
+
+ Future getCarrinho() async {
+    final  prefs = await  SharedPreferences.getInstance();
+    List<String> lista =  prefs.getStringList("flutter.carrinho") ?? [];
+    lista.forEach((id) async {
+       DocumentSnapshot documentSnapshot = await snapshot.reference.collection("produtos").document(id).get();
+       carrinho.add(documentSnapshot);
+    });
+    return carrinho;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<DocumentSnapshot> carrinho = [];
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -70,7 +80,7 @@ class ProdutoScreen extends StatelessWidget {
                     } else {
                       var dividedTiles = ListTile.divideTiles(
                               tiles: snapshot.data.documents.map((doc) {
-                                return ProdutoTileList(doc, carrinho);
+                                return ProdutoTileList(doc);
                               }),
                               color: Colors.transparent)
                           .toList();
@@ -81,15 +91,26 @@ class ProdutoScreen extends StatelessWidget {
                   }),
             ),
             Container(
-                color: Colors.orange,
-                child: ListView(
-                  children: ListTile.divideTiles(
-                          tiles: carrinho.map((doc) {
-                            return CartTile(doc);
-                          }),
-                          color: Colors.transparent)
-                      .toList(),
-                )),
+              color: Colors.orange,
+              child: FutureBuilder<dynamic>(
+                  future: getCarrinho(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.deepOrange,
+                        ),
+                      );
+                    } else {
+                      return ListView(
+                        children: ListTile.divideTiles(
+                            tiles: carrinho.map(doc) {
+                              return ProdutoTileList(doc);
+                            }).toList(),
+                      );
+                    }
+                  }),
+            ),
           ],
         ),
       ),

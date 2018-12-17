@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProdutoTileList extends StatelessWidget {
   final DocumentSnapshot snapshot;
-  List<DocumentSnapshot> carrinho;
 
-  ProdutoTileList(this.snapshot, this.carrinho);
+  ProdutoTileList(this.snapshot);
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences.setMockInitialValues({
+      "flutter.carrinho": []
+    });
     return Card(
       margin: EdgeInsets.only(top: 3, left: 3, right: 3),
       elevation: 1,
@@ -46,9 +49,12 @@ class ProdutoTileList extends StatelessWidget {
               ),
               trailing: InkWell(
                 child: Icon(Icons.shopping_basket, color: Colors.black),
-                onTap: () {
-                    this.carrinho.add(snapshot);
-                    print("total de produto " + this.carrinho.length.toString());
+                onTap: () async {
+                    final  prefs = await  SharedPreferences.getInstance();
+
+                    List<String> lista =  prefs.getStringList("flutter.carrinho") ?? [];
+                    lista.add(snapshot.documentID);
+                    await prefs.setStringList("flutter.carrinho",lista);
                 },
               ),
             ),
