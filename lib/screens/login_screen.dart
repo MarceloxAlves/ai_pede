@@ -58,14 +58,11 @@ class _LoginPageState extends State<LoginPage> {
     final FirebaseAuth _fAuth = FirebaseAuth.instance;
     final GoogleSignIn _gSignIn = new GoogleSignIn();
 
-    print('logado1');
     GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
-    print('logado2');
     GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
 
     user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
     checkLogin();
-    
     }
 
   void checkLogin(){
