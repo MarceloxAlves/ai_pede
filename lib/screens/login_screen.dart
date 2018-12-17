@@ -1,5 +1,6 @@
+import 'package:ai_pede/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart ';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
   FormType _formType = FormType.login;
+  FirebaseUser user;
 
   bool validar() {
     final form = formKey.currentState;
@@ -34,12 +36,14 @@ class _LoginPageState extends State<LoginPage> {
     if (validar()) {
       try {
         if (_formType == FormType.login){
-            FirebaseUser user = await FirebaseAuth.instance
+            user = await FirebaseAuth.instance
                 .signInWithEmailAndPassword(email: _email, password: _password);
+            checkLogin();
 
         }else{
-          FirebaseUser user = await FirebaseAuth.instance
+          user = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: _email, password: _password);
+          checkLogin();
         }
 
 
@@ -50,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<FirebaseUser> loginGoogle() async {
+  void loginGoogle() async {
     final FirebaseAuth _fAuth = FirebaseAuth.instance;
     final GoogleSignIn _gSignIn = new GoogleSignIn();
 
@@ -58,9 +62,18 @@ class _LoginPageState extends State<LoginPage> {
     GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
     print('logado2');
     GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
-    FirebaseUser user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
 
+    user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
+    checkLogin();
+    
+    }
 
+  void checkLogin(){
+    if(user != null){
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context)=>HomeSreen())
+      );
+    }
   }
 
   void moveToRegister() {
@@ -75,24 +88,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _formType = FormType.login;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: buildInputs() + submitButtons()
-        )),
-      ),
-    );
   }
 
   List<Widget> buildInputs(){
@@ -133,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             onPressed: submit),
         RaisedButton(
+
             onPressed: loginGoogle,
             padding: EdgeInsets.all(8),
             child: Text('Login com Google', style: TextStyle(fontSize: 20))),
@@ -161,4 +157,22 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
+    @override
+  Widget build(BuildContext context) {
+    checkLogin();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: buildInputs() + submitButtons()
+        )),
+      ),
+    );
+  }
 }
