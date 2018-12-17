@@ -68,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (user != null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomeSreen()));
+      Route route = MaterialPageRoute(builder: (context) => HomeSreen());
+      Navigator.pushReplacement(context, route);
     }
   }
 
