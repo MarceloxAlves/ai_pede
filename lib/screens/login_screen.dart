@@ -65,7 +65,11 @@ class _LoginPageState extends State<LoginPage> {
     checkLogin();
     }
 
-  void checkLogin(){
+  void checkLogin() async{
+    if(user == null){
+      user = await FirebaseAuth.instance.currentUser();
+    }
+    
     if(user != null){
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context)=>HomeSreen())
