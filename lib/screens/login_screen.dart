@@ -50,16 +50,16 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future loginGoogle() async {
+  Future<FirebaseUser> loginGoogle() async {
     final FirebaseAuth _fAuth = FirebaseAuth.instance;
     final GoogleSignIn _gSignIn = new GoogleSignIn();
 
-
+    print('logado1');
     GoogleSignInAccount googleSignInAccount = await _gSignIn.signIn();
+    print('logado2');
     GoogleSignInAuthentication authentication = await googleSignInAccount.authentication;
     FirebaseUser user = await _fAuth.signInWithGoogle(idToken: authentication.idToken, accessToken: authentication.accessToken);
-    print(user.displayName);
-    print(user.email);
+
 
   }
 
@@ -97,19 +97,27 @@ class _LoginPageState extends State<LoginPage> {
 
   List<Widget> buildInputs(){
     return [
-      TextFormField(
-        decoration: new InputDecoration(labelText: 'Email'),
-        validator: (value) =>
-        value.isEmpty ? 'Email não pode estar  vazio!' : null,
-        onSaved: (value) => _email = value,
+      ListTile(
+        trailing: Icon(Icons.email),
+        title: TextFormField(
+          decoration: new InputDecoration(labelText: 'Email'),
+          validator: (value) =>
+          value.isEmpty ? 'Email não pode estar  vazio!' : null,
+          onSaved: (value) => _email = value,
+        ),
+
       ),
-      TextFormField(
-        decoration: new InputDecoration(labelText: 'Password'),
-        validator: (value) =>
-        value.isEmpty ? 'Senha não pode estar vazio!' : null,
-        obscureText: true,
-        onSaved: (value) => _password = value,
-      ),
+      ListTile(
+        trailing: Icon(Icons.lock),
+        title: TextFormField(
+          decoration: new InputDecoration(labelText: 'Password'),
+          validator: (value) =>
+          value.isEmpty ? 'Senha não pode estar vazio!' : null,
+          obscureText: true,
+          onSaved: (value) => _password = value,
+        ),
+
+      )
     ];
   }
 
