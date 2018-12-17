@@ -1,6 +1,7 @@
 import 'package:ai_pede/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
@@ -72,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     
     if(user != null){
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context)=>HomeSreen())
+        MaterialPageRoute(builder: (context) => HomeSreen())
       );
     }
   }
@@ -149,22 +150,41 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      checkLogin();
+    }
+
     @override
   Widget build(BuildContext context) {
-    checkLogin();
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: buildInputs() + submitButtons()
-        )),
-      ),
+      body: FutureBuilder<FirebaseUser>(
+        future: FirebaseAuth.instance.currentUser(),
+        builder: (context, currentUser) {
+          if(currentUser.hasData){
+            return Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.deepOrange,
+              ),
+            );
+          } else {
+            return Container(
+              padding: EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: buildInputs() + submitButtons()
+              )),
+            );
+          }
+        },
+      )
     );
   }
 }
