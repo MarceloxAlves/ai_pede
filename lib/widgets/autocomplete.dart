@@ -3,18 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class FirstPage extends StatefulWidget {
+class AutoComplete extends StatefulWidget {
   List<DocumentSnapshot> _querySnapshot;
   GoogleMapController controller;
 
-  FirstPage(this._querySnapshot, this.controller);
+  AutoComplete(this._querySnapshot, this.controller);
 
   @override
+  _AutoCompleteState createState() => new _AutoCompleteState();
   _FirstPageState createState() =>
       new _FirstPageState(this._querySnapshot, controller);
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _AutoCompleteState extends State<AutoComplete> {
   List<String> added = [];
   String currentText = "";
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
@@ -22,6 +23,7 @@ class _FirstPageState extends State<FirstPage> {
   GoogleMapController controller;
   List<String> suggestions = [];
 
+  _AutoCompleteState() {
   _FirstPageState(this.querySnapshot, this.controller) {
     this.querySnapshot.forEach((doc) {
       suggestions.add(doc.data["nome"].toString());

@@ -10,6 +10,7 @@ class ProdutoTileList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.only(top: 3, left: 3, right: 3),
       elevation: 1,
       child: Material(
         color: Colors.white,
