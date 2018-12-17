@@ -5,24 +5,25 @@ import 'package:ai_pede/tiles/produtogrid_tile.dart';
 import 'package:ai_pede/tiles/produtolist_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-List<DocumentSnapshot> carrinho = [];
-
 class ProdutoScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
+
   ProdutoScreen(this.snapshot);
 
- Future getCarrinho() async {
+  Future<Map<String,List<DocumentSnapshot>>> getCarrinho() async {
     final  prefs = await  SharedPreferences.getInstance();
     List<String> lista =  prefs.getStringList("flutter.carrinho") ?? [];
+    List<DocumentSnapshot> carrinho = [];
+
     lista.forEach((id) async {
-       DocumentSnapshot documentSnapshot = await snapshot.reference.collection("produtos").document(id).get();
-       carrinho.add(documentSnapshot);
+        carrinho.add(await snapshot.reference.collection("produtos").document(id).get());
     });
-    return carrinho;
+    return {"keys": carrinho};
   }
 
   @override
   Widget build(BuildContext context) {
+    getCarrinho();
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -71,6 +72,7 @@ class ProdutoScreen extends StatelessWidget {
                   future:
                       snapshot.reference.collection("produtos").getDocuments(),
                   builder: (context, snapshot) {
+
                     if (!snapshot.hasData) {
                       return Center(
                         child: CircularProgressIndicator(
@@ -79,7 +81,7 @@ class ProdutoScreen extends StatelessWidget {
                       );
                     } else {
                       var dividedTiles = ListTile.divideTiles(
-                              tiles: snapshot.data.documents.map((doc) {
+                              tiles:snapshot.data.documents.map((doc) {
                                 return ProdutoTileList(doc);
                               }),
                               color: Colors.transparent)
@@ -92,7 +94,7 @@ class ProdutoScreen extends StatelessWidget {
             ),
             Container(
               color: Colors.orange,
-              child: FutureBuilder<dynamic>(
+              child: FutureBuilder<Map<String,List<DocumentSnapshot>>>(
                   future: getCarrinho(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -102,11 +104,16 @@ class ProdutoScreen extends StatelessWidget {
                         ),
                       );
                     } else {
+                      print("snap-"+ snapshot.data["keys"].toString());
+
+                      var dividedTiles = ListTile.divideTiles(
+                          tiles: snapshot.data["keys"].map((doc) {
+                            return CartTile(doc);
+                          }),
+                          color: Colors.transparent)
+                          .toList();
                       return ListView(
-                        children: ListTile.divideTiles(
-                            tiles: carrinho.map(doc) {
-                              return ProdutoTileList(doc);
-                            }).toList(),
+                        children: dividedTiles,
                       );
                     }
                   }),
